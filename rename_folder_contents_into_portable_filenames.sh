@@ -4,7 +4,7 @@
 # all files and folders shall be renamed into portable names. Then
 # double-click this script from within your file manager in order to run it.
 #
-# Version 2016.155.2
+# Version 2016.155.3
 # Copyright (c) 2016 Guenther Brunthaler. All rights reserved.
 #
 # This source file is free software.
@@ -123,12 +123,16 @@ process() {
 		$debug && new=$old
 	fi
 	test ! -d "$new" && return
-	ls -1A -- "$new" | while IFS= read -r fso
+	list "$new" | while IFS= read -r fso
 	do
 		fso=$new/$fso
 		test ! -e "$fso" && continue
 		process "$fso"
 	done
+}
+
+list() {
+	LC_COLLATE=POSIX ls -1A -- "$1"
 }
 
 qin() {
@@ -224,14 +228,14 @@ fifo=$t
 	cat <<- .
 	
 	# Clean up and finish.
-	rm `dasher "$t"`
 	inform "Script $t completed its job successfully!"
+	rm `dasher "$t"`
 .
 } > "$undo" & helper=$!
 
 exec 5> "$fifo"; redir5=true
 
-ls -1A -- "$mydir" | while IFS= read -r fso
+list "$mydir" | while IFS= read -r fso
 do
 	test x"$fso" = x"$myscript" && continue
 	fso=$mydir/$fso
