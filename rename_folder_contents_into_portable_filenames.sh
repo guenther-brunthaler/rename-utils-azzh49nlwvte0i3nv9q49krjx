@@ -57,10 +57,13 @@ rename() {
 		s/€/ euro /g
 		s/\$/ dollar /g
 		s/@/ at /g
-		s/%/ prozent /g
-		s/°/ grad /g
-		s/"/ zoll /g
-		s/&/ und /g
+		s/%/ percent /g
+		s/°/ degrees /g
+		s/"/ inch /g
+		s/'\''/ quote /g
+		s/&/ and /g
+		s/#/ hash /g
+		s/=/ equals /g
 		s/[^-a-z0-9]\+/_/g
 		s/^_//; s/_$//
 	'
