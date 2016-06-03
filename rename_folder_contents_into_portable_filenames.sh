@@ -4,7 +4,7 @@
 # all files and folders shall be renamed into portable names. Then
 # double-click this script from within your file manager in order to run it.
 #
-# Version 2016.155
+# Version 2016.155.1
 # Copyright (c) 2016 Guenther Brunthaler. All rights reserved.
 #
 # This source file is free software.
@@ -48,25 +48,36 @@ redir5=false
 
 trap cleanup 0
 
+# Replacements containing UNICODE characters, encoded in UTF-7.
+locale_replacements='
+	s/+AMQ-/Ae/g
+	s/+ANY-/Oe/g
+	s/+ANw-/Ue/g
+	s/+AOQ-/ae/g
+	s/+APY-/oe/g
+	s/+APw-/ue/g
+	s/+AN8-/ss/g
+	s/+IKw-/ euro /g
+	s/+ALA-/ degrees /g
+'
+locale_replacements=`println "$locale_replacements" | iconv -f UTF-7`
+
+# Replacements which require only ASCII characters.
+all_replacements=$locale_replacements'
+	s/"/ inch /g
+	s/\$/ dollar /g
+	s/@/ at /g
+	s/%/ percent /g
+	s/'\''/ quote /g
+	s/&/ and /g
+	s/#/ hash /g
+	s/=/ equals /g
+	s/[^-a-z0-9]\+/_/g
+	s/^_//; s/_$//
+'
+
 rename() {
-	println "$1" | tr A-Z a-z | sed '
-		s/[Ää]/ae/g
-		s/[Öö]/oe/g
-		s/[Üü]/ue/g
-		s/ß/ss/g
-		s/€/ euro /g
-		s/\$/ dollar /g
-		s/@/ at /g
-		s/%/ percent /g
-		s/°/ degrees /g
-		s/"/ inch /g
-		s/'\''/ quote /g
-		s/&/ and /g
-		s/#/ hash /g
-		s/=/ equals /g
-		s/[^-a-z0-9]\+/_/g
-		s/^_//; s/_$//
-	'
+	println "$1" | tr A-Z a-z | LC_CTYPE=POSIX sed "$all_replacements"
 }
 
 # $new:= mknew($1, $dir, $ext)
