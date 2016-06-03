@@ -93,7 +93,7 @@ process() {
 	bn=`basename -- "$1"`
 	old=$dir/$bn; old=${old#./}
 	ext=${bn##*.}
-	if test x"$ext" = x"$bn"
+	if test x"$ext" = x"$bn" || test x"${bn#.}" != x"$bn"
 	then
 		ext=
 	else
