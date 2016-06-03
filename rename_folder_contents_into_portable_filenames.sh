@@ -4,7 +4,7 @@
 # all files and folders shall be renamed into portable names. Then
 # double-click this script from within your file manager in order to run it.
 #
-# Version 2016.155.1
+# Version 2016.155.2
 # Copyright (c) 2016 Guenther Brunthaler. All rights reserved.
 #
 # This source file is free software.
@@ -233,8 +233,9 @@ exec 5> "$fifo"; redir5=true
 
 ls -1A -- "$mydir" | while IFS= read -r fso
 do
+	test x"$fso" = x"$myscript" && continue
 	fso=$mydir/$fso
-	test ! -e "$fso" || test x"$fso" = x"$myscript" && continue
+	test ! -e "$fso" && continue
 	process "$fso"
 done
 inform "Script $myscriptpath completed its job successfully!"
