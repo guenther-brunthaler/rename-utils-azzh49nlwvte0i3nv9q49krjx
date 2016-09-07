@@ -7,7 +7,7 @@
 # Version 2016.155.3
 # Copyright (c) 2016 Guenther Brunthaler. All rights reserved.
 #
-# This source file is free software.
+# This script file is free software.
 # Distribution is permitted under the terms of the GPLv3.
 
 set -e
